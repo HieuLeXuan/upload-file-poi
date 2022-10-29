@@ -1,0 +1,41 @@
+package com.hieulexuan.uploadexcelfile.task.model;
+
+import com.hieulexuan.uploadexcelfile.project.model.Project;
+import com.hieulexuan.uploadexcelfile.user.model.User;
+import lombok.*;
+
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
+
+@Entity
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "task")
+public class Task {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
+
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "description")
+    private String description;
+
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @JoinTable(
+            name = "task_user",
+            joinColumns = @JoinColumn(name = "users"),
+            inverseJoinColumns = @JoinColumn(name = "tasks"))
+    Set<User> users = new HashSet<>();
+
+    @ManyToOne
+    @JoinColumn(name = "project_id", nullable = false)
+    private Project project;
+}
