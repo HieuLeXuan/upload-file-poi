@@ -23,13 +23,7 @@ public class Project {
     private Long id;
 
     @Column(name = "name")
-    private String firstName;
-
-    @Column(name = "from_date")
-    private String fromDate;
-
-    @Column(name = "to_date")
-    private String toDate;
+    private String name;
 
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinTable(
@@ -37,8 +31,23 @@ public class Project {
             joinColumns = @JoinColumn(name = "project_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    Set<User> users = new HashSet<>();
+    Set<User> users;
 
     @OneToMany(mappedBy = "project")
     private Set<Task> tasks;
+
+    public void saveUser(User user) {
+        this.getUsers().add(user);
+        user.getProjects().add(this);
+    }
+
+    @Override
+    public String toString() {
+        return "Project{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", users=" + users +
+                ", tasks=" + tasks +
+                '}';
+    }
 }

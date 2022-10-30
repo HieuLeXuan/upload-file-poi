@@ -33,9 +33,14 @@ public class Task {
             name = "task_user",
             joinColumns = @JoinColumn(name = "users"),
             inverseJoinColumns = @JoinColumn(name = "tasks"))
-    Set<User> users = new HashSet<>();
+    Set<User> users;
 
     @ManyToOne
     @JoinColumn(name = "project_id", nullable = false)
     private Project project;
+
+    public void saveUser(User user) {
+        this.getUsers().add(user);
+        user.getTasks().add(this);
+    }
 }

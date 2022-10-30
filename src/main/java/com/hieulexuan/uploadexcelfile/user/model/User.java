@@ -15,7 +15,7 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "user")
+@Table(name = "users")
 public class User {
 
     @Id
@@ -36,10 +36,10 @@ public class User {
 
     @ManyToMany(mappedBy = "users", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JsonIgnore
-    Set<Project> projects = new HashSet<>();
+    Set<Project> projects;
 
     @ManyToMany(mappedBy = "users", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JsonIgnore
-    Set<Task> tasks = new HashSet<>();
+    Set<Task> tasks;
 
 }
